@@ -45,6 +45,15 @@ func CreateAuction(byteData []byte) error {
 		log.Println(errMsg)
 		return errors.New(errMsg)
 	}
+
+	id, err := io.ReadAll(resp.Body)
+	if err != nil {
+		errMsg := fmt.Sprintf("Error: reading response body: %v", err)
+		log.Println(errMsg)
+		return errors.New(errMsg)
+	}
+	log.Printf("AuctionId = %s", string(id))
+
 	return nil
 }
 
