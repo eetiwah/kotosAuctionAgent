@@ -9,6 +9,8 @@ require (
 	github.com/mutecomm/go-sqlcipher/v4 v4.4.2
 )
 
+require github.com/google/go-cmp v0.6.0 // indirect
+
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
 	git.openprivacy.ca/cwtch.im/tapir v0.6.0 // indirect
@@ -19,7 +21,6 @@ require (
 	github.com/mimoo/StrobeGo v0.0.0-20220103164710-9a04d6ca976b // indirect
 	github.com/stretchr/testify v1.10.0 // indirect
 	go.etcd.io/bbolt v1.3.6 // indirect
-	go.mongodb.org/mongo-driver v1.17.3
 	golang.org/x/crypto v0.38.0 // indirect
 	golang.org/x/net v0.21.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
