@@ -125,6 +125,11 @@ func (cb *CwtchBot) Launch() {
 	}
 	gSettings.DownloadPath = "./"
 
+	// Reset all Experiments...
+	for experiment := range gSettings.Experiments {
+		gSettings.Experiments[experiment] = false
+	}
+
 	// Explicitly Enable only the experiments we've specified...
 	for _, experiment := range cb.experiments {
 		gSettings.Experiments[experiment] = true
