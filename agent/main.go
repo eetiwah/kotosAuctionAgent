@@ -232,7 +232,7 @@ func main() {
 						log.Printf("*** %s is now available\n", utilities.AuctionName)
 
 						// Start the auction Watcher after the group server is operational
-						go auction.Watcher()
+						//go auction.Watcher()
 						break
 					}
 

@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 
-	//"kotosAuctionAgent/agent/admin"
 	"kotosAuctionAgent/agent/utilities"
 	"log"
 	"regexp"

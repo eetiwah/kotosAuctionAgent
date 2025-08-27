@@ -3,6 +3,7 @@ package auction
 import (
 	"encoding/json"
 	"fmt"
+	"kotosAuctionAgent/agent/group"
 )
 
 // Auction management messages from admin
@@ -17,12 +18,20 @@ func Create(commandList []string) string {
 			return "usage: create_auction auction_serialized_json_data"
 		}
 
-		err := CreateAuction([]byte(commandList[1]))
+		// Send message to community
+		err := group.SendMessage([]byte(commandList[1]))
 		if err != nil {
-			return fmt.Sprintf("Error: auction was not created: %v", err)
+			return fmt.Sprintf("Error: create_auction msg was not sent: %v", err)
 		}
 
-		return "Auction created"
+		// Update auction store
+		err = CreateAuctionObj([]byte(commandList[1]))
+		if err != nil {
+			return err.Error()
+		}
+
+		// Success
+		return "Auction created and sent to community"
 
 	default:
 		return "Error: parameter mismatch"
@@ -117,7 +126,14 @@ func Start(commandList []string) string {
 			return "usage: start_auction auctionId"
 		}
 
-		err := StartAuction(commandList[1])
+		// Send message to community
+		err := group.SendMessage([]byte(commandList[1]))
+		if err != nil {
+			return fmt.Sprintf("Error: start_auction msg was not sent: %v", err)
+		}
+
+		// Update object store
+		err = StartAuction(commandList[1])
 		if err != nil {
 			return err.Error()
 		}
@@ -139,7 +155,13 @@ func Stop(commandList []string) string {
 			return "usage: stop_auction auctionId"
 		}
 
-		err := StopAuction(commandList[1])
+		// Send message to community
+		err := group.SendMessage([]byte(commandList[1]))
+		if err != nil {
+			return fmt.Sprintf("Error: stop_auction msg was not sent: %v", err)
+		}
+
+		err = StopAuction(commandList[1])
 		if err != nil {
 			return err.Error()
 		}
