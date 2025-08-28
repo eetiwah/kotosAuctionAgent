@@ -16,6 +16,7 @@ import (
 func CreateAuctionObj(byteData []byte) error {
 	// Define the URL to the auction manager
 	url := fmt.Sprintf("%s/createAuction", utilities.AUCTION_MGR_URI)
+	log.Printf("createAuction URL = %s", url)
 
 	// Create HTTP request with byteData as body
 	req, err := http.NewRequest("POST", url, bytes.NewReader(byteData))
@@ -63,9 +64,10 @@ func GetAuctionObj(id string) (AuctionObject, error) {
 
 	// Define the URL to the auction manager
 	url := fmt.Sprintf("%s/getAuction/%s", utilities.AUCTION_MGR_URI, id)
+	//log.Printf("getAuction URL = %s", url)
 
 	// Create HTTP request with byteData as body
-	req, err := http.NewRequest("Get", url, nil)
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		errMsg := fmt.Sprintf("Error: get_auction creating HTTP request %s: %v", url, err)
 		log.Println(errMsg)
