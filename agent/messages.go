@@ -76,6 +76,10 @@ func Messages(data string) string {
 		result := auction.Stop(cmd)
 		return string(utilities.Cwtchbot.PackMessage(model.OverlayChat, result))
 
+	case "get_bid":
+		result := auction.GetBid(cmd)
+		return string(utilities.Cwtchbot.PackMessage(model.OverlayChat, result))
+
 	case "get_bid_list":
 		result := auction.BidList(cmd)
 		return string(utilities.Cwtchbot.PackMessage(model.OverlayChat, result))
