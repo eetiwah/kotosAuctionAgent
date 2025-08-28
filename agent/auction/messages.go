@@ -1,7 +1,15 @@
 package auction
 
+import (
+	"log"
+	"strings"
+)
+
 func Messages(data string, conversationID int, onion string) {
-	/*	var groupMsg group.GroupMessage
+	cmdList := strings.Split(data, " ")
+
+	/*
+		var groupMsg group.GroupMessage
 
 		// convert string to []byte
 		jsonData := []byte(data)
@@ -12,24 +20,32 @@ func Messages(data string, conversationID int, onion string) {
 			log.Println(msg)
 			return
 		}
-
-		// Marshal Data back to JSON and unmarshal into the correct struct
-		dataBytes, err := json.Marshal(groupMsg.Data)
-		if err != nil {
-			msg := fmt.Sprintf("Error: failed to marshal data: %v\n", err)
-			log.Println(msg)
-			return
-		}
-
-		// Determine auction message type
-		switch strings.ToLower(groupMsg.Type) {
-
-		case "bid_response":
-			Bid_Response_Event_Received(conversationID, onion, dataBytes)
-
-		default:
-			log.Printf("Auction MessageType error: %v from %d", groupMsg.Type, conversationID)
-			// sendErrorMessage(envelope.ConversationID, "MessageType error", m.Type)
-		}
+			// Marshal Data back to JSON and unmarshal into the correct struct
+			dataBytes, err := json.Marshal(groupMsg.Data)
+			if err != nil {
+				msg := fmt.Sprintf("Error: failed to marshal data: %v\n", err)
+				log.Println(msg)
+				return
+			}
 	*/
+
+	// Determine auction message type
+	//switch strings.ToLower(groupMsg.Type) {
+	switch strings.ToLower(cmdList[0]) {
+
+	case "ping_auction":
+		log.Println("ping_auction received")
+
+	case "bid_offer":
+		//log.Printf("dataBytes = %s", string(dataBytes))
+		log.Println("bid_offer received")
+
+		//	case "bid_response":
+		//		Bid_Response_Event_Received(conversationID, onion, dataBytes)
+
+	default:
+		//log.Printf("Auction MessageType error: %v from %d", groupMsg.Type, conversationID)
+		log.Printf("Auction MessageType error: %v from %d", cmdList[0], conversationID)
+		// sendErrorMessage(envelope.ConversationID, "MessageType error", m.Type)
+	}
 }
