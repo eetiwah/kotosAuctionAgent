@@ -65,7 +65,11 @@ func Messages(data string) string {
 		return string(utilities.Cwtchbot.PackMessage(model.OverlayChat, result))
 
 	case "get_auction_winner":
-		result := auction.Winner(cmd)
+		result := auction.GetWinner(cmd)
+		return string(utilities.Cwtchbot.PackMessage(model.OverlayChat, result))
+
+	case "set_auction_winner":
+		result := auction.SetWinner(cmd)
 		return string(utilities.Cwtchbot.PackMessage(model.OverlayChat, result))
 
 	case "start_auction":

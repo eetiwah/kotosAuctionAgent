@@ -80,10 +80,10 @@ func List() string {
 	return fmt.Sprintf("Auction List: %s", jsonStr)
 }
 
-func Winner(commandList []string) string {
+func GetWinner(commandList []string) string {
 	switch len(commandList) {
 	case 1:
-		return "Error: missing "
+		return "Error: could be missing auctionId"
 
 	case 2:
 		if commandList[1] == "-help" {
@@ -100,6 +100,40 @@ func Winner(commandList []string) string {
 			return fmt.Sprintf("Error: get_auction_winner json marshal: %v", err)
 		}
 		return fmt.Sprintf("Auction Winner: %s", jsonStr)
+
+	default:
+		return "Error: parameter mismatch"
+	}
+}
+
+func SetWinner(commandList []string) string {
+	switch len(commandList) {
+	case 1:
+		return "Error: missing many elements"
+
+	case 2:
+		if commandList[1] == "-help" {
+			return "usage: set_auction_winner auctionId bidId"
+		}
+
+		return "Error: unrecognized command"
+
+	case 3:
+		// Rebuild command
+		command := fmt.Sprintf("%s %s %s", commandList[0], commandList[1], commandList[2])
+
+		// Send message to community
+		err := group.SendMessage([]byte(command))
+		if err != nil {
+			return fmt.Sprintf("Error: set_auction_winner msg was not sent: %v", err)
+		}
+
+		err = SetAuctionWinner(commandList[1], commandList[2])
+		if err != nil {
+			return err.Error()
+		}
+
+		return fmt.Sprintf("Auction %s winner was set: %s", commandList[1], commandList[2])
 
 	default:
 		return "Error: parameter mismatch"
