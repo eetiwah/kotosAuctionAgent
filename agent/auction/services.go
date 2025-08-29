@@ -11,7 +11,7 @@ import (
 func Create(commandList []string) string {
 	switch len(commandList) {
 	case 1:
-		return "Error: missing "
+		return "Error: could be missing json data"
 
 	case 2:
 		if commandList[1] == "-help" {
@@ -44,7 +44,7 @@ func Create(commandList []string) string {
 func Get(commandList []string) string {
 	switch len(commandList) {
 	case 1:
-		return "Error: missing "
+		return "Error: could be missing auctionId"
 
 	case 2:
 		if commandList[1] == "-help" {
@@ -109,7 +109,7 @@ func Winner(commandList []string) string {
 func Start(commandList []string) string {
 	switch len(commandList) {
 	case 1:
-		return "Error: missing "
+		return "Error: could be missing auctionId"
 
 	case 2:
 		if commandList[1] == "-help" {
@@ -141,7 +141,7 @@ func Start(commandList []string) string {
 func Stop(commandList []string) string {
 	switch len(commandList) {
 	case 1:
-		return "Error: missing "
+		return "Error: could be missing auctionId"
 
 	case 2:
 		if commandList[1] == "-help" {
@@ -172,7 +172,7 @@ func Stop(commandList []string) string {
 func GetBid(commandList []string) string {
 	switch len(commandList) {
 	case 1:
-		return "Error: missing "
+		return "Error: could be missing bidId "
 
 	case 2:
 		if commandList[1] == "-help" {
@@ -198,7 +198,7 @@ func GetBid(commandList []string) string {
 func BidList(commandList []string) string {
 	switch len(commandList) {
 	case 1:
-		return "Error: missing "
+		return "Error: could be missing auctionId "
 
 	case 2:
 		if commandList[1] == "-help" {

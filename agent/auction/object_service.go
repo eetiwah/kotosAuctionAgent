@@ -270,6 +270,50 @@ func StopAuction(id string) error {
 	return nil
 }
 
+func AddBid(bidObj BidObject) error {
+	byteData, err := json.Marshal(bidObj)
+	if err != nil {
+		errMsg := fmt.Sprintf("AddBid: status code %d", err)
+		log.Println(errMsg)
+		return errors.New(errMsg)
+	}
+
+	// Define the URL to the auction manager
+	url := fmt.Sprintf("%s/addBid", utilities.AUCTION_MGR_URI)
+
+	// Create HTTP request
+	req, err := http.NewRequest("POST", url, bytes.NewReader(byteData))
+	if err != nil {
+		errMsg := fmt.Sprintf("Error: add_bid creating HTTP request %s: %v", url, err)
+		log.Println(errMsg)
+		return errors.New(errMsg)
+	}
+
+	// Send request with timeout
+	client := &http.Client{Timeout: 10 * time.Second}
+	resp, err := client.Do(req)
+	if err != nil {
+		errMsg := fmt.Sprintf("Error: add_bid HTTP POST %s: %v", url, err)
+		log.Println(errMsg)
+		return errors.New(errMsg)
+	}
+	defer resp.Body.Close()
+
+	// Check HTTP status and read response body for errors
+	if resp.StatusCode != http.StatusOK {
+		body, readErr := io.ReadAll(resp.Body)
+		errMsg := fmt.Sprintf("Error: add_bid status code %d", resp.StatusCode)
+
+		if readErr == nil && len(body) > 0 {
+			errMsg += fmt.Sprintf(": %s", string(body))
+		}
+		log.Println(errMsg)
+		return errors.New(errMsg)
+	}
+
+	return nil
+}
+
 func GetBidObj(id string) (BidObject, error) {
 	var obj BidObject
 
@@ -277,7 +321,7 @@ func GetBidObj(id string) (BidObject, error) {
 	url := fmt.Sprintf("%s/getBid/%s", utilities.AUCTION_MGR_URI, id)
 
 	// Create HTTP request with byteData as body
-	req, err := http.NewRequest("Get", url, nil)
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		errMsg := fmt.Sprintf("Error: get_bid creating HTTP request %s: %v", url, err)
 		log.Println(errMsg)

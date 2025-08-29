@@ -1,6 +1,8 @@
 package auction
 
 import (
+	"encoding/json"
+	"fmt"
 	"log"
 	"strings"
 )
@@ -40,12 +42,27 @@ func Messages(data string, conversationID int, onion string) {
 		//log.Printf("dataBytes = %s", string(dataBytes))
 		log.Println("bid_offer received")
 
-		//	case "bid_response":
-		//		Bid_Response_Event_Received(conversationID, onion, dataBytes)
+		log.Printf("Data = %s\n", cmdList[1])
+
+		var bidObject BidObject
+		if err := json.Unmarshal([]byte(cmdList[1]), &bidObject); err != nil {
+			msg := fmt.Sprintf("Error: unmarshalling failure = %v\n", err)
+			log.Println(msg)
+			return
+		}
+
+		// Add onion address so that we can track who did what
+		bidObject.Onion = onion
+
+		// Add bid to bid store
+		err := AddBid(bidObject)
+		if err != nil {
+			log.Printf("Error: %s", err.Error())
+			return
+		}
 
 	default:
 		//log.Printf("Auction MessageType error: %v from %d", groupMsg.Type, conversationID)
 		log.Printf("Auction MessageType error: %v from %d", cmdList[0], conversationID)
-		// sendErrorMessage(envelope.ConversationID, "MessageType error", m.Type)
 	}
 }
